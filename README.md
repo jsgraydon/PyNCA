@@ -22,7 +22,7 @@ git clone https://github.com/jsgraydon/mini-project.git
 
 3. Enter the project directory and install the project in editable mode:
 ```
-cd PyNCA
+cd mini-project
 
 pip install -e
 ```
