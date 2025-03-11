@@ -24,5 +24,5 @@ git clone https://github.com/jsgraydon/mini-project.git
 ```
 cd mini-project
 
-pip install -e
+pip install -e .
 ```
