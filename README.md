@@ -103,10 +103,10 @@ python -m pynca -f "pk_dummy_iv_bolus_1cmt.csv" --nca --auc_start 0 --auc_end 16
 
 The code above calls ```pynca``` and loads the file via ```-f```. Next, the user can perform an NCA using ```--nca```, which requires the arguments ```--auc_start```, ```--auc_end```, and ```--terminal_times```. Together, this command will calculate the following parameters:
 
-- Maximum concentration (C~max~)
-- Time to C~max~ (T~max~)
-- Half-life (t~1/2~)
-- Volume of distribution (V~d~)
+- Maximum concentration (C<sub>max</sub>)
+- Time to C<sub>max</sub> (T<sub>max</sub>)
+- Half-life (t<sub>1/2</sub>)
+- Volume of distribution (V<sub>d</sub>)
 - Clearance rate (CL)
 - Area under the concentration-time curve (AUC)
 
