@@ -110,7 +110,7 @@ The code above calls ```pynca``` and loads the file via ```-f```. Next, the user
 - Clearance rate (CL)
 - Area under the concentration-time curve (AUC)
 
-*Note that AUC~0-infinity~ is not supported at this time.*
+*Note that AUC<sub>0-infinity</sub> is not supported at this time.*
 
 The report can be saved to a text file using the following command:
 ```
