@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="PyNCA_files/libs/clipboard/clipboard.min.js"></script>
+<script src="PyNCA_files/libs/quarto-html/tabby.min.js"></script>
+<script src="PyNCA_files/libs/quarto-html/popper.min.js"></script>
+<script src="PyNCA_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="PyNCA_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="PyNCA_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="PyNCA_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
+<link href="PyNCA_files/libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.3.353">
+
+  <meta name="author" content="James S. Graydon">
+  <meta name="dcterms.date" content="2025-03-13">
+  <title>PyNCA: Noncompartmental Analysis In Python</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="PyNCA_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="PyNCA_files/libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="PyNCA_files/libs/revealjs/dist/theme/quarto.css">
+  <link rel="stylesheet" href="styles.css">
+  <link href="PyNCA_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="PyNCA_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="PyNCA_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="PyNCA_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+
+  .callout {
+    margin-top: 1em;
+    margin-bottom: 1em;  
+    border-radius: .25rem;
+  }
+
+  .callout.callout-style-simple { 
+    padding: 0em 0.5em;
+    border-left: solid #acacac .3rem;
+    border-right: solid 1px silver;
+    border-top: solid 1px silver;
+    border-bottom: solid 1px silver;
+    display: flex;
+  }
+
+  .callout.callout-style-default {
+    border-left: solid #acacac .3rem;
+    border-right: solid 1px silver;
+    border-top: solid 1px silver;
+    border-bottom: solid 1px silver;
+  }
+
+  .callout .callout-body-container {
+    flex-grow: 1;
+  }
+
+  .callout.callout-style-simple .callout-body {
+    font-size: 1rem;
+    font-weight: 400;
+  }
+
+  .callout.callout-style-default .callout-body {
+    font-size: 0.9rem;
+    font-weight: 400;
+  }
+
+  .callout.callout-titled.callout-style-simple .callout-body {
+    margin-top: 0.2em;
+  }
+
+  .callout:not(.callout-titled) .callout-body {
+      display: flex;
+  }
+
+  .callout:not(.no-icon).callout-titled.callout-style-simple .callout-content {
+    padding-left: 1.6em;
+  }
+
+  .callout.callout-titled .callout-header {
+    padding-top: 0.2em;
+    margin-bottom: -0.2em;
+  }
+
+  .callout.callout-titled .callout-title  p {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+  }
+    
+  .callout.callout-titled.callout-style-simple .callout-content  p {
+    margin-top: 0;
+  }
+
+  .callout.callout-titled.callout-style-default .callout-content  p {
+    margin-top: 0.7em;
+  }
+
+  .callout.callout-style-simple div.callout-title {
+    border-bottom: none;
+    font-size: .9rem;
+    font-weight: 600;
+    opacity: 75%;
+  }
+
+  .callout.callout-style-default  div.callout-title {
+    border-bottom: none;
+    font-weight: 600;
+    opacity: 85%;
+    font-size: 0.9rem;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+  }
+
+  .callout.callout-style-default div.callout-content {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+  }
+
+  .callout.callout-style-simple .callout-icon::before {
+    height: 1rem;
+    width: 1rem;
+    display: inline-block;
+    content: "";
+    background-repeat: no-repeat;
+    background-size: 1rem 1rem;
+  }
+
+  .callout.callout-style-default .callout-icon::before {
+    height: 0.9rem;
+    width: 0.9rem;
+    display: inline-block;
+    content: "";
+    background-repeat: no-repeat;
+    background-size: 0.9rem 0.9rem;
+  }
+
+  .callout-title {
+    display: flex
+  }
+    
+  .callout-icon::before {
+    margin-top: 1rem;
+    padding-right: .5rem;
+  }
+
+  .callout.no-icon::before {
+    display: none !important;
+  }
+
+  .callout.callout-titled .callout-body > .callout-content > :last-child {
+    margin-bottom: 0.5rem;
+  }
+
+  .callout.callout-titled .callout-icon::before {
+    margin-top: .5rem;
+    padding-right: .5rem;
+  }
+
+  .callout:not(.callout-titled) .callout-icon::before {
+    margin-top: 1rem;
+    padding-right: .5rem;
+  }
+
+  /* Callout Types */
+
+  div.callout-note {
+    border-left-color: #4582ec !important;
+  }
+
+  div.callout-note .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAEU0lEQVRYCcVXTWhcVRQ+586kSUMMxkyaElstCto2SIhitS5Ek8xUKV2poatCcVHtUlFQk8mbaaziwpWgglJwVaquitBOfhQXFlqlzSJpFSpIYyXNjBNiTCck7x2/8/LeNDOZxDuEkgOXe++553zfefee+/OYLOXFk3+1LLrRdiO81yNqZ6K9cG0P3MeFaMIQjXssE8Z1JzLO9ls20MBZX7oG8w9GxB0goaPrW5aNMp1yOZIa7Wv6o2ykpLtmAPs/vrG14Z+6d4jpbSKuhdcSyq9wGMPXjonwmESXrriLzFGOdDBLB8Y6MNYBu0dRokSygMA/mrun8MGFN3behm6VVAwg4WR3i6FvYK1T7MHo9BK7ydH+1uurECoouk5MPRyVSBrBHMYwVobG2aOXM07sWrn5qgB60rc6mcwIDJtQrnrEr44kmy+UO9r0u9O5/YbkS9juQckLed3DyW2XV/qWBBB3ptvI8EUY3I9p/67OW+g967TNr3Sotn3IuVlfMLVnsBwH4fsnebJvyGm5GeIUA3jljERmrv49SizPYuq+z7c2H/jlGC+Ghhupn/hcapqmcudB9jwJ/3jvnvu6vu5lVzF1fXyZuZZ7U8nRmVzytvT+H3kilYvH09mLWrQdwFSsFEsxFVs5fK7A0g8gMZjbif4ACpKbjv7gNGaD8bUrlk8x+KRflttr22JEMRUbTUwwDQScyzPgedQHZT0xnx7ujw2jfVfExwYHwOsDTjLdJ2ebmeQIlJ7neo41s/DrsL3kl+W2lWvAga0tR3zueGr6GL78M3ifH0rGXrBC2aAR8uYcIA5gwV8zIE8onoh8u0Fca/ciF7j1uOzEnqcIm59sEXoGc0+z6+H45V1CvAvHcD7THztu669cnp+L0okAeIc6zjbM/24LgGM1gZk7jnRu1aQWoU9sfUOuhrmtaPIO3YY1KLLWZaEO5TKUbMY5zx8W9UJ6elpLwKXbsaZ4EFl7B4bMtDv0iRipKoDQT2sNQI9b1utXFdYisi+wzZ/ri/1m7QfDgEuvgUUEIJPq3DhX/5DWNqIXDOweC2wvIR90Oq3lDpdMIgD2r0dXvGdsEW5H6x6HLRJYU7C69VefO1x8Gde1ZFSJLfWS1jbCnhtOPxmpfv2LXOA2Xk2tvnwKKPFuZ/oRmwBwqRQDcKNeVQkYcOjtWVBuM/JuYw5b6isojIkYxyYAFn5K7ZBF10fea52y8QltAg6jnMqNHFBmGkQ1j+U43HMi2xMar1Nv0zGsf1s8nUsmUtPOOrbFIR8bHFDMB5zL13Gmr/kGlCkUzedTzzmzsaJXhYawnA3UmARpiYj5ooJZiUoxFRtK3X6pgNPv+IZVPcnwbOl6f+aBaO1CNvPW9n9LmCp01nuSaTRF2YxHqZ8DYQT6WsXT+RD6eUztwYLZ8rM+rcPxamv1VQzFUkzFXvkiVrySGQgJNvXHJAxiU3/NwiC03rSf05VBaPtu/Z7/B8Yn/w7eguloAAAAAElFTkSuQmCC');
+  }
+
+  div.callout-note.callout-style-default .callout-title {
+    background-color: #dae6fb
+  }
+
+  div.callout-important {
+    border-left-color: #d9534f !important;
+  }
+
+  div.callout-important .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAEKklEQVRYCcVXTWhcVRS+575MJym48A+hSRFr00ySRQhURRfd2HYjk2SSTokuBCkU2o0LoSKKraKIBTcuFCoidGFD08nkBzdREbpQ1EDNIv8qSGMFUboImMSZd4/f9zJv8ibJMC8xJQfO3HPPPef7zrvvvnvviIkpC9nsw0UttFunbUhpFzFtarSd6WJkStVMw5xyVqYTvkwfzuf/5FgtkVoB0729j1rjXwThS7Vio+Mo6DNnvLfahoZ+i/o32lULuJ3NNiz7q6+pyAUkJaFF6JwaM2lUJlV0MlnQn5aTRbEu0SEqHUa0A4AdiGuB1kFXRfVyg5d87+Dg4DL6m2TLAub60ilj7A1Ec4odSAc8X95sHh7+ZRPCFo6Fnp7HfU/fBng/hi10CjCnWnJjsxvDNxWw0NfV6Rv5GgP3I3jGWXumdTD/3cbEOP2ZbOZp69yniG3FQ9z1jD7bnBu9Fc2tKGC2q+uAJOQHBDRiZX1x36o7fWBs7J9ownbtO+n0/qWkvW7UPIfc37WgT6ZGR++EOJyeQDSb9UB+DZ1G6DdLDzyS+b/kBCYGsYgJbSQHuThGKRcw5xdeQf8YdNHsc6ePXrlSYMBuSIAFTGAtQo+VuALo4BX83N190NWZWbynBjhOHsmNfFWLeL6v+ynsA58zDvvAC8j5PkbOcXCMg2PZFk3q8MjI7WAG/Dp9AwP7jdGBOOQkAvlFUB+irtm16I1Zw9YBcpGTGXYmk3kQIC/Cds55l+iMI3jqhjAuaoe+am2Jw5GT3Nbz3CkE12NavmzN5+erJW7046n/CH1RO/RVa8lBLozXk9uqykkGAyRXLWlLv5jyp4RFsG5vGVzpDLnIjTWgnRy2Rr+tDKvRc7Y8AyZq10jj8DqXdnIRNtFZb+t/ZRtXcDiVnzpqx8mPcDWxgARUqx0W1QB9MeUZiNrV4qP+Ehc+BpNgATsTX8ozYKL2NtFYAHc84fG7ndxUPr+AR/iQSns7uSUufAymwDOb2+NjK27lEFocm/EE2WpyIy/Hi66MWuMKJn8RvxIcj87IM5Vh9663ziW36kR0HNenXuxmfaD8JC7tfKbrhFr7LiZCrMjrzTeGx+PmkosrkNzW94ObzwocJ7A1HokLolY+AvkTiD/q1H0cN48c5EL8Crkttsa/AXQVDmutfyku0E7jShx49XqV3MFK8IryDhYVbj7Sj2P2eBxwcXoe8T8idsKKPRcnZw1b+slFTubwUwhktrfnAt7J++jwQtLZcm3sr9LQrjRzz6cfMv9aLvgmnAGvpoaGLxM4mAEaLV7iAzQ3oU0IvD5x9ix3yF2RAAuYAOO2f7PEFWCXZ4C9Pb2UsgDeVnFSpbFK7/IWu7TPTvBqzbGdCHOJQSxiEjt6IyZmxQyEJHv6xyQsYk//moVFsN2zP6fRImjfq7/n/wFDguUQFNEwugAAAABJRU5ErkJggg==');
+  }
+
+  div.callout-important.callout-style-default .callout-title {
+    background-color: #f7dddc
+  }
+
+  div.callout-warning {
+    border-left-color: #f0ad4e !important;
+  }
+
+  div.callout-warning .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAETklEQVRYCeVWW2gcVRg+58yaTUnizqbipZeX4uWhBEniBaoUX1Ioze52t7sRq6APio9V9MEaoWlVsFasRq0gltaAPuxms8lu0gcviE/FFOstVbSIxgcv6SU7EZqmdc7v9+9mJtNks51NTUH84ed889/PP+cmxP+d5FIbMJmNbpREu4WUkiTtCicKny0l1pIKmBzovF2S+hIJHX8iEu3hZJ5lNZGqyRrGSIQpq15AzF28jgpeY6yk6GVdrfFqdrD6Iw+QlB8g0YS2g7dyQmXM/IDhBhT0UCiRf59lfqmmDvzRt6kByV/m4JjtzuaujMUM2c5Z2d6JdKrRb3K2q6mA+oYVz8JnDdKPmmNthzkAk/lN63sYPgevrguc72aZX/L9C6x09GYyxBgCX4NlvyGUHOKELlm5rXeR1kchuChJt4SSwyddZRXgvwMGvYo4QSlk3/zkHD8UHxwVJA6zjZZqP8v8kK8OWLnIZtLyCAJagYC4rTGW/9Pqj92N/c+LUaAj27movwbi19tk/whRCIE7Q9vyI6yvRpftAKVTdUjOW40X3h5OXsKCdmFcx0xlLJoSuQngnrJe7Kcjm4OMq9FlC7CMmScQANuNvjfP3PjGXDBaUQmbp296S5L4DrpbrHN1T87ZVEZVCzg1FF0Ft+dKrlLukI+/c9ENo+TvlTDbYFvuKPtQ9+l052rXrgKoWkDAFnvh0wTOmYn8R5f4k/jN/fZiCM1tQx9jQQ4ANhqG4hiL0qIFTGViG9DKB7GYzgubnpofgYRwO+DFjh0Zin2m4b/97EDkXkc+f6xYAPX0KK2I/7fUQuwzuwo/L3AkcjugPNixC8cHf0FyPjWlItmLxWw4Ou9YsQCr5fijMGoD/zpdRy95HRysyXA74MWOnscpO4j2y3HAVisw85hX5+AFBRSHt4ShfLFkIMXTqyKFc46xdzQM6XbAi702a7sy04J0+feReMFKp5q9esYLCqAZYw/k14E/xcLLsFElaornTuJB0svMuJINy8xkIYuL+xPAlWRceH6+HX7THJ0djLUom46zREu7tTkxwmf/FdOZ/sh6Q8qvEAiHpm4PJ4a/doJe0gH1t+aHRgCzOvBvJedEK5OFE5jpm4AGP2a8Dxe3gGJ/pAutug9Gp6he92CsSsWBaEcxGx0FHytmIpuqGkOpldqNYQK8cSoXvd+xLxXADw0kf6UkJNFtdo5MOgaLjiQOQHcn+A6h5NuL2s0qsC2LOM75PcF3yr5STuBSAcGG+meA14K/CI21HcS4LBT6tv0QAh8Dr5l93AhZzG5ZJ4VxAqdZUEl9z7WJ4aN+svMvwHHL21UKTd1mqvChH7/Za5xzXBBKrUcB0TQ+Ulgkfbi/H/YT5EptrGzsEK7tR1B7ln9BBwckYfMiuSqklSznIuoIIOM42MQO+QnduCoFCI0bpkzjCjddHPN/F+2Yu+sd9bKNpVwHhbS3LluK/0zgfwD0xYI5dXuzlQAAAABJRU5ErkJggg==');
+  }
+
+  div.callout-warning.callout-style-default .callout-title {
+    background-color: #fcefdc
+  }
+
+  div.callout-tip {
+    border-left-color: #02b875 !important;
+  }
+
+  div.callout-tip .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAADr0lEQVRYCe1XTWgTQRj9ZjZV8a9SPIkKgj8I1bMHsUWrqYLVg4Ue6v9BwZOxSYsIerFao7UiUryIqJcqgtpimhbBXoSCVxUFe9CTiogUrUp2Pt+3aUI2u5vdNh4dmMzOzHvvezuz8xNFM0mjnbXaNu1MvFWRXkXEyE6aYOYJpdW4IXuA4r0fo8qqSMDBU0v1HJUgVieAXxzCsdE/YJTdFcVIZQNMyhruOMJKXYFoLfIfIvVIMWdsrd+Rpd86ZmyzzjJmLStqRn0v8lzkb4rVIXvnpScOJuAn2ACC65FkPzEdEy4TPWRLJ2h7z4cArXzzaOdKlbOvKKX25Wl00jSnrwVxAg3o4dRxhO13RBSdNvH0xSARv3adTXbBdTf64IWO2vH0LT+cv4GR1DJt+DUItaQogeBX/chhbTBxEiZ6gftlDNXTrvT7co4ub5A6gp9HIcHvzTa46OS5fBeP87Qm0fQkr4FsYgVQ7Qg+ZayaDg9jhg1GkWj8RG6lkeSacrrHgDaxdoBiZPg+NXV/KifMuB6//JmYH4CntVEHy/keA6x4h4CU5oFy8GzrBS18cLJMXcljAKB6INjWsRcuZBWVaS3GDrqB7rdapVIeA+isQ57Eev9eCqzqOa81CY05VLd6SamW2wA2H3SiTbnbSxmzfp7WtKZkqy4mdyAlGx7ennghYf8voqp9cLSgKdqNfa6RdRsAAkPwRuJZNbpByn+RrJi1RXTwdi8RQF6ymDwGMAtZ6TVE+4uoKh+MYkcLsT0Hk8eAienbiGdjJHZTpmNjlbFJNKDVAp2fJlYju6IreQxQ08UJDNYdoLSl6AadO+fFuCQqVMB1NJwPm69T04Wv5WhfcWyfXQB+wXRs1pt+nCknRa0LVzSA/2B+a9+zQJadb7IyyV24YAxKp2Jqs3emZTuNnKxsah+uabKbMk7CbTgJx/zIgQYErIeTKRQ9yD9wxVof5YolPHqaWo7TD6tJlh7jQnK5z2n3+fGdggIOx2kaa2YI9QWarc5Ce1ipNWMKeSG4DysFF52KBmTNMmn5HqCFkwy34rDg05gDwgH3bBi+sgFhN/e8QvRn8kbamCOhgrZ9GJhFDgfcMHzFb6BAtjKpFhzTjwv1KCVuxHvCbsSiEz4CANnj84cwHdFXAbAOJ4LTSAawGWFn5tDhLMYz6nWeU2wJfIhmIJBefcd/A5FWQWGgrWzyORZ3Q6HuV+Jf0Bj+BTX69fm1zWgK7By1YTXchFDORywnfQ7GpzOo6S+qECrsx2ifVQAAAABJRU5ErkJggg==');
+  }
+
+  div.callout-tip.callout-style-default .callout-title {
+    background-color: #ccf1e3
+  }
+
+  div.callout-caution {
+    border-left-color: #fd7e14 !important;
+  }
+
+  div.callout-caution .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAACV0lEQVRYCdVWzWoUQRCuqp2ICBLJXgITZL1EfQDBW/bkzUMUD7klD+ATSHBEfAIfQO+iXsWDxJsHL96EHAwhgzlkg8nBg25XWb0zIb0zs9muYYWkoKeru+vn664fBqElyZNuyh167NXJ8Ut8McjbmEraKHkd7uAnAFku+VWdb3reSmRV8PKSLfZ0Gjn3a6Xlcq9YGb6tADjn+lUfTXtVmaZ1KwBIvFI11rRXlWlatwIAAv2asaa9mlB9wwygiDX26qaw1yYPzFXg2N1GgG0FMF8Oj+VIx7E/03lHx8UhvYyNZLN7BwSPgekXXLribw7w5/c8EF+DBK5idvDVYtEEwMeYefjjLAdEyQ3M9nfOkgnPTEkYU+sxMq0BxNR6jExrAI31H1rzvLEfRIdgcv1XEdj6QTQAS2wtstEALLG1yEZ3QhH6oDX7ExBSFEkFINXH98NTrme5IOaaA7kIfiu2L8A3qhH9zRbukdCqdsA98TdElyeMe5BI8Rs2xHRIsoTSSVFfCFCWGPn9XHb4cdobRIWABNf0add9jakDjQJpJ1bTXOJXnnRXHRf+dNL1ZV1MBRCXhMbaHqGI1JkKIL7+i8uffuP6wVQAzO7+qVEbF6NbS0LJureYcWXUUhH66nLR5rYmva+2tjRFtojkM2aD76HEGAD3tPtKM309FJg5j/K682ywcWJ3PASCcycH/22u+Bh7Aa0ehM2Fu4z0SAE81HF9RkB21c5bEn4Dzw+/qNOyXr3DCTQDMBOdhi4nAgiFDGCinIa2owCEChUwD8qzd03PG+qdW/4fDzjUMcE1ZpIAAAAASUVORK5CYII=');
+  }
+
+  div.callout-caution.callout-style-default .callout-title {
+    background-color: #ffe5d0
+  }
+
+  </style>
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  <link href="PyNCA_files/libs/tabwid-1.1.3/tabwid.css" rel="stylesheet">
+  <script src="PyNCA_files/libs/tabwid-1.1.3/tabwid.js"></script>
+  <link href="PyNCA_files/libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+  <script src="PyNCA_files/libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+  <script src="PyNCA_files/libs/plotly-binding-4.10.4/plotly.js"></script>
+  <script src="PyNCA_files/libs/typedarray-0.1/typedarray.min.js"></script>
+  <script src="PyNCA_files/libs/jquery-3.5.1/jquery.min.js"></script>
+  <link href="PyNCA_files/libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet">
+  <script src="PyNCA_files/libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+  <link href="PyNCA_files/libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
+  <script src="PyNCA_files/libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
+</head>
+<body class="quarto-dark">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">PyNCA: Noncompartmental Analysis In Python</h1>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+James S. Graydon 
+</div>
+        <p class="quarto-title-affiliation">
+            Columbia University, GSAS, Biotechnology
+          </p>
+    </div>
+</div>
+
+  <p class="date">13 March 2025</p>
+</section>
+<section id="introduction-pharmacokinetics" class="slide level2">
+<h2>Introduction: Pharmacokinetics</h2>
+<ul>
+<li>Pharmacokinetic (PK) data is routinely collected and analyzed in drug development
+<ul>
+<li>In simple terms, PK data represents the <strong>concentration</strong> of drug in a given compartment over time</li>
+<li>PK data help scientists understand the distribution and activity of a drug</li>
+<li>PK data are also used to establish the duration of the drug’s persistence in the body and safety profile</li>
+</ul></li>
+</ul>
+</section>
+<section id="introduction-noncompartmental-analysis" class="slide level2">
+<h2>Introduction: Noncompartmental analysis</h2>
+<ul>
+<li>Noncompartmental analysis (NCA) is a widely used methodology for quantifying PK data
+<ul>
+<li>NCAs typically return values such as:
+<ul>
+<li>Half-life (t<sub>1/2</sub>)</li>
+<li>Maximum concentration (C<sub>max</sub>)</li>
+<li>Time to C<sub>max</sub> (T<sub>max</sub>)</li>
+<li>Volume of distribution (V<sub>d</sub>)</li>
+<li>Clearance rate (CL)</li>
+<li>Area under the concentration-time curve (AUC)</li>
+</ul></li>
+</ul></li>
+<li>More sophisticated (and complicated) methods allow for further characterization of PK
+<ul>
+<li>NCA, due to simplicity/low cost/ease of use, is still a standard part of all drug studies</li>
+</ul></li>
+</ul>
+</section>
+<section id="why-am-i-doing-this" class="slide level2">
+<h2>Why am I doing this?</h2>
+<ul>
+<li>NCA is a simple method, but many pharmacologists lack experience with or access to software to run it</li>
+<li>No Python-based NCA solution exists</li>
+<li>A simple, easy-to-use, secure option may allow more users to quickly perform NCAs</li>
+</ul>
+</section>
+<section id="features" class="slide level2">
+<h2>Features</h2>
+<ul>
+<li><strong>pk_dummy_data:</strong> a class for generating “dummy” PK data for use in PyNCA</li>
+<li><strong>pk_data:</strong> a class containing methods for analyzing and visualizing PK data
+<ul>
+<li><code>--summarize</code></li>
+<li><code>--plot</code></li>
+<li><code>--nca</code></li>
+</ul></li>
+</ul>
+</section>
+<section id="pk_dummy_data" class="slide level2">
+<h2>pk_dummy_data</h2>
+<p>Input:</p>
+<pre><code>python -m pynca --generate --dummy_n_ids 10 --dummy_times 0 0.5 1 2 6 12 24 48 72 168 --dummy_dose 100 --dummy_half_life 12</code></pre>
+<p>Output:</p>
+<div class="cell">
+<div class="cell-output-display">
+
+<div class="tabwid"><style>.cl-49915f54{}.cl-49803bc0{font-family:'Arial';font-size:16pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(255, 255, 240, 1.00);background-color:transparent;}.cl-498e0494{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:3pt;padding-top:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;}.cl-498e15f6{width:2in;background-color:transparent;vertical-align: middle;border-bottom: 0.75pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-498e1600{width:2in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-49915f54"><thead><tr style="overflow-wrap:break-word;"><th class="cl-498e15f6"><p class="cl-498e0494"><span class="cl-49803bc0">ID</span></p></th><th class="cl-498e15f6"><p class="cl-498e0494"><span class="cl-49803bc0">TIME</span></p></th><th class="cl-498e15f6"><p class="cl-498e0494"><span class="cl-49803bc0">DOSE</span></p></th><th class="cl-498e15f6"><p class="cl-498e0494"><span class="cl-49803bc0">TREND</span></p></th><th class="cl-498e15f6"><p class="cl-498e0494"><span class="cl-49803bc0">CONC</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-498e1600"><p class="cl-498e0494"><span class="cl-49803bc0">1</span></p></td><td class="cl-498e1600"><p class="cl-498e0494"><span class="cl-49803bc0">0.0</span></p></td><td class="cl-498e1600"><p class="cl-498e0494"><span class="cl-49803bc0">100</span></p></td><td class="cl-498e1600"><p class="cl-498e0494"><span class="cl-49803bc0">100.00</span></p></td><td class="cl-498e1600"><p class="cl-498e0494"><span class="cl-49803bc0">110.00</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-498e1600"><p class="cl-498e0494"><span class="cl-49803bc0">1</span></p></td><td class="cl-498e1600"><p class="cl-498e0494"><span class="cl-49803bc0">0.5</span></p></td><td class="cl-498e1600"><p class="cl-498e0494"><span class="cl-49803bc0">0</span></p></td><td class="cl-498e1600"><p class="cl-498e0494"><span class="cl-49803bc0">97.15</span></p></td><td class="cl-498e1600"><p class="cl-498e0494"><span class="cl-49803bc0">95.68</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-498e1600"><p class="cl-498e0494"><span class="cl-49803bc0">1</span></p></td><td class="cl-498e1600"><p class="cl-498e0494"><span class="cl-49803bc0">1.0</span></p></td><td class="cl-498e1600"><p class="cl-498e0494"><span class="cl-49803bc0">0</span></p></td><td class="cl-498e1600"><p class="cl-498e0494"><span class="cl-49803bc0">94.39</span></p></td><td class="cl-498e1600"><p class="cl-498e0494"><span class="cl-49803bc0">95.68</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-498e1600"><p class="cl-498e0494"><span class="cl-49803bc0">1</span></p></td><td class="cl-498e1600"><p class="cl-498e0494"><span class="cl-49803bc0">2.0</span></p></td><td class="cl-498e1600"><p class="cl-498e0494"><span class="cl-49803bc0">0</span></p></td><td class="cl-498e1600"><p class="cl-498e0494"><span class="cl-49803bc0">89.09</span></p></td><td class="cl-498e1600"><p class="cl-498e0494"><span class="cl-49803bc0">93.98</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-498e1600"><p class="cl-498e0494"><span class="cl-49803bc0">1</span></p></td><td class="cl-498e1600"><p class="cl-498e0494"><span class="cl-49803bc0">6.0</span></p></td><td class="cl-498e1600"><p class="cl-498e0494"><span class="cl-49803bc0">0</span></p></td><td class="cl-498e1600"><p class="cl-498e0494"><span class="cl-49803bc0">70.71</span></p></td><td class="cl-498e1600"><p class="cl-498e0494"><span class="cl-49803bc0">68.53</span></p></td></tr></tbody></table></div>
+</div>
+</div>
+</section>
+<section id="pk_data-summarize" class="slide level2">
+<h2>pk_data: –summarize</h2>
+<p>Input:</p>
+<pre><code>python -m pynca -f "pk_dummy_iv_bolus_1cmt.csv" --summarize</code></pre>
+<p>Output:</p>
+<div class="cell">
+<div class="cell-output-display">
+
+<div class="tabwid"><style>.cl-49b8c2e2{}.cl-49b3c4fe{font-family:'Arial';font-size:16pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(255, 255, 240, 1.00);background-color:transparent;}.cl-49b5c470{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:3pt;padding-top:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;}.cl-49b5d618{width:1.8in;background-color:transparent;vertical-align: middle;border-bottom: 0.75pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-49b5d622{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0.75pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-49b5d623{width:1.8in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-49b5d62c{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-49b8c2e2"><thead><tr style="overflow-wrap:break-word;"><th class="cl-49b5d618"><p class="cl-49b5c470"><span class="cl-49b3c4fe">TIME</span></p></th><th class="cl-49b5d618"><p class="cl-49b5c470"><span class="cl-49b3c4fe">mean</span></p></th><th class="cl-49b5d618"><p class="cl-49b5c470"><span class="cl-49b3c4fe">std</span></p></th><th class="cl-49b5d618"><p class="cl-49b5c470"><span class="cl-49b3c4fe">median</span></p></th><th class="cl-49b5d618"><p class="cl-49b5c470"><span class="cl-49b3c4fe">min</span></p></th><th class="cl-49b5d622"><p class="cl-49b5c470"><span class="cl-49b3c4fe">max</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-49b5d623"><p class="cl-49b5c470"><span class="cl-49b3c4fe">0.0</span></p></td><td class="cl-49b5d623"><p class="cl-49b5c470"><span class="cl-49b3c4fe">101.566</span></p></td><td class="cl-49b5d623"><p class="cl-49b5c470"><span class="cl-49b3c4fe">5.76979530</span></p></td><td class="cl-49b5d623"><p class="cl-49b5c470"><span class="cl-49b3c4fe">100.820</span></p></td><td class="cl-49b5d623"><p class="cl-49b5c470"><span class="cl-49b3c4fe">93.88</span></p></td><td class="cl-49b5d62c"><p class="cl-49b5c470"><span class="cl-49b3c4fe">110.00</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-49b5d623"><p class="cl-49b5c470"><span class="cl-49b3c4fe">0.5</span></p></td><td class="cl-49b5d623"><p class="cl-49b5c470"><span class="cl-49b3c4fe">96.929</span></p></td><td class="cl-49b5d623"><p class="cl-49b5c470"><span class="cl-49b3c4fe">3.64117335</span></p></td><td class="cl-49b5d623"><p class="cl-49b5c470"><span class="cl-49b3c4fe">96.125</span></p></td><td class="cl-49b5d623"><p class="cl-49b5c470"><span class="cl-49b3c4fe">91.82</span></p></td><td class="cl-49b5d62c"><p class="cl-49b5c470"><span class="cl-49b3c4fe">103.47</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-49b5d623"><p class="cl-49b5c470"><span class="cl-49b3c4fe">1.0</span></p></td><td class="cl-49b5d623"><p class="cl-49b5c470"><span class="cl-49b3c4fe">92.116</span></p></td><td class="cl-49b5d623"><p class="cl-49b5c470"><span class="cl-49b3c4fe">3.14403562</span></p></td><td class="cl-49b5d623"><p class="cl-49b5c470"><span class="cl-49b3c4fe">92.810</span></p></td><td class="cl-49b5d623"><p class="cl-49b5c470"><span class="cl-49b3c4fe">87.18</span></p></td><td class="cl-49b5d62c"><p class="cl-49b5c470"><span class="cl-49b3c4fe">96.57</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-49b5d623"><p class="cl-49b5c470"><span class="cl-49b3c4fe">2.0</span></p></td><td class="cl-49b5d623"><p class="cl-49b5c470"><span class="cl-49b3c4fe">88.928</span></p></td><td class="cl-49b5d623"><p class="cl-49b5c470"><span class="cl-49b3c4fe">2.80015000</span></p></td><td class="cl-49b5d623"><p class="cl-49b5c470"><span class="cl-49b3c4fe">87.760</span></p></td><td class="cl-49b5d623"><p class="cl-49b5c470"><span class="cl-49b3c4fe">86.18</span></p></td><td class="cl-49b5d62c"><p class="cl-49b5c470"><span class="cl-49b3c4fe">93.98</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-49b5d623"><p class="cl-49b5c470"><span class="cl-49b3c4fe">6.0</span></p></td><td class="cl-49b5d623"><p class="cl-49b5c470"><span class="cl-49b3c4fe">69.876</span></p></td><td class="cl-49b5d623"><p class="cl-49b5c470"><span class="cl-49b3c4fe">1.52524096</span></p></td><td class="cl-49b5d623"><p class="cl-49b5c470"><span class="cl-49b3c4fe">69.845</span></p></td><td class="cl-49b5d623"><p class="cl-49b5c470"><span class="cl-49b3c4fe">67.37</span></p></td><td class="cl-49b5d62c"><p class="cl-49b5c470"><span class="cl-49b3c4fe">72.45</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-49b5d623"><p class="cl-49b5c470"><span class="cl-49b3c4fe">12.0</span></p></td><td class="cl-49b5d623"><p class="cl-49b5c470"><span class="cl-49b3c4fe">50.657</span></p></td><td class="cl-49b5d623"><p class="cl-49b5c470"><span class="cl-49b3c4fe">2.49311073</span></p></td><td class="cl-49b5d623"><p class="cl-49b5c470"><span class="cl-49b3c4fe">51.590</span></p></td><td class="cl-49b5d623"><p class="cl-49b5c470"><span class="cl-49b3c4fe">47.00</span></p></td><td class="cl-49b5d62c"><p class="cl-49b5c470"><span class="cl-49b3c4fe">53.20</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-49b5d623"><p class="cl-49b5c470"><span class="cl-49b3c4fe">24.0</span></p></td><td class="cl-49b5d623"><p class="cl-49b5c470"><span class="cl-49b3c4fe">23.856</span></p></td><td class="cl-49b5d623"><p class="cl-49b5c470"><span class="cl-49b3c4fe">1.21879904</span></p></td><td class="cl-49b5d623"><p class="cl-49b5c470"><span class="cl-49b3c4fe">23.455</span></p></td><td class="cl-49b5d623"><p class="cl-49b5c470"><span class="cl-49b3c4fe">22.50</span></p></td><td class="cl-49b5d62c"><p class="cl-49b5c470"><span class="cl-49b3c4fe">26.40</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-49b5d623"><p class="cl-49b5c470"><span class="cl-49b3c4fe">48.0</span></p></td><td class="cl-49b5d623"><p class="cl-49b5c470"><span class="cl-49b3c4fe">6.329</span></p></td><td class="cl-49b5d623"><p class="cl-49b5c470"><span class="cl-49b3c4fe">0.21340884</span></p></td><td class="cl-49b5d623"><p class="cl-49b5c470"><span class="cl-49b3c4fe">6.350</span></p></td><td class="cl-49b5d623"><p class="cl-49b5c470"><span class="cl-49b3c4fe">6.03</span></p></td><td class="cl-49b5d62c"><p class="cl-49b5c470"><span class="cl-49b3c4fe">6.63</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-49b5d623"><p class="cl-49b5c470"><span class="cl-49b3c4fe">72.0</span></p></td><td class="cl-49b5d623"><p class="cl-49b5c470"><span class="cl-49b3c4fe">1.578</span></p></td><td class="cl-49b5d623"><p class="cl-49b5c470"><span class="cl-49b3c4fe">0.08038795</span></p></td><td class="cl-49b5d623"><p class="cl-49b5c470"><span class="cl-49b3c4fe">1.580</span></p></td><td class="cl-49b5d623"><p class="cl-49b5c470"><span class="cl-49b3c4fe">1.44</span></p></td><td class="cl-49b5d62c"><p class="cl-49b5c470"><span class="cl-49b3c4fe">1.68</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-49b5d623"><p class="cl-49b5c470"><span class="cl-49b3c4fe">168.0</span></p></td><td class="cl-49b5d623"><p class="cl-49b5c470"><span class="cl-49b3c4fe">0.010</span></p></td><td class="cl-49b5d623"><p class="cl-49b5c470"><span class="cl-49b3c4fe">0.00000000</span></p></td><td class="cl-49b5d623"><p class="cl-49b5c470"><span class="cl-49b3c4fe">0.010</span></p></td><td class="cl-49b5d623"><p class="cl-49b5c470"><span class="cl-49b3c4fe">0.01</span></p></td><td class="cl-49b5d62c"><p class="cl-49b5c470"><span class="cl-49b3c4fe">0.01</span></p></td></tr></tbody></table></div>
+</div>
+</div>
+</section>
+<section id="pk_data-plot" class="slide level2">
+<h2>pk_data: –plot</h2>
+<p>Input:</p>
+<pre><code>python -m pynca -f "pk_dummy_iv_bolus_1cmt.csv" --plot --log_scale</code></pre>
+<p>Output:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-82e3163da372d4533487" style="width:960px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-82e3163da372d4533487">{"x":{"visdat":{"31bc19d716be":["function () ","plotlyVisDat"]},"cur_data":"31bc19d716be","attrs":{"31bc19d716be":{"x":{},"y":{},"color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"},"31bc19d716be.1":{"x":{},"y":{},"color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter","mode":"lines","showlegend":false,"inherit":true}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Individual PK concentration profiles","xaxis":{"domain":[0,1],"automargin":true,"title":"Time"},"yaxis":{"domain":[0,1],"automargin":true,"title":"Concentration"},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[0,0.5,1,2,6,12,24,48,72,168],"y":[110,95.680000000000007,95.680000000000007,93.980000000000004,68.530000000000001,47.350000000000001,25.469999999999999,6.0700000000000003,1.6100000000000001,0.01],"type":"scatter","mode":"markers","name":"1","marker":{"color":"rgba(102,194,165,1)","line":{"color":"rgba(102,194,165,1)"}},"textfont":{"color":"rgba(102,194,165,1)"},"error_y":{"color":"rgba(102,194,165,1)"},"error_x":{"color":"rgba(102,194,165,1)"},"line":{"color":"rgba(102,194,165,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[0,0.5,1,2,6,12,24,48,72,168],"y":[99.769999999999996,99.769999999999996,93.230000000000004,90.700000000000003,70.909999999999997,52.960000000000001,22.5,6.5099999999999998,1.5700000000000001,0.01],"type":"scatter","mode":"markers","name":"2","marker":{"color":"rgba(228,156,113,1)","line":{"color":"rgba(228,156,113,1)"}},"textfont":{"color":"rgba(228,156,113,1)"},"error_y":{"color":"rgba(228,156,113,1)"},"error_x":{"color":"rgba(228,156,113,1)"},"line":{"color":"rgba(228,156,113,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[0,0.5,1,2,6,12,24,48,72,168],"y":[110,100.17,93.069999999999993,93.069999999999993,70.959999999999994,52.149999999999999,24.010000000000002,6.5499999999999998,1.5800000000000001,0.01],"type":"scatter","mode":"markers","name":"3","marker":{"color":"rgba(201,152,157,1)","line":{"color":"rgba(201,152,157,1)"}},"textfont":{"color":"rgba(201,152,157,1)"},"error_y":{"color":"rgba(201,152,157,1)"},"error_x":{"color":"rgba(201,152,157,1)"},"line":{"color":"rgba(201,152,157,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[0,0.5,1,2,6,12,24,48,72,168],"y":[96.569999999999993,96.569999999999993,96.569999999999993,87.840000000000003,69.950000000000003,47.670000000000002,24.09,6.6299999999999999,1.45,0.01],"type":"scatter","mode":"markers","name":"4","marker":{"color":"rgba(175,154,200,1)","line":{"color":"rgba(175,154,200,1)"}},"textfont":{"color":"rgba(175,154,200,1)"},"error_y":{"color":"rgba(175,154,200,1)"},"error_x":{"color":"rgba(175,154,200,1)"},"line":{"color":"rgba(175,154,200,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[0,0.5,1,2,6,12,24,48,72,168],"y":[93.879999999999995,93.879999999999995,93.879999999999995,86.579999999999998,68.629999999999995,47,22.789999999999999,6.2699999999999996,1.4399999999999999,0.01],"type":"scatter","mode":"markers","name":"5","marker":{"color":"rgba(226,148,184,1)","line":{"color":"rgba(226,148,184,1)"}},"textfont":{"color":"rgba(226,148,184,1)"},"error_y":{"color":"rgba(226,148,184,1)"},"error_x":{"color":"rgba(226,148,184,1)"},"line":{"color":"rgba(226,148,184,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[0,0.5,1,2,6,12,24,48,72,168],"y":[96.280000000000001,94.900000000000006,87.680000000000007,87.680000000000007,69.040000000000006,49.939999999999998,23.600000000000001,6.3600000000000003,1.6799999999999999,0.01],"type":"scatter","mode":"markers","name":"6","marker":{"color":"rgba(176,208,99,1)","line":{"color":"rgba(176,208,99,1)"}},"textfont":{"color":"rgba(176,208,99,1)"},"error_y":{"color":"rgba(176,208,99,1)"},"error_x":{"color":"rgba(176,208,99,1)"},"line":{"color":"rgba(176,208,99,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[0,0.5,1,2,6,12,24,48,72,168],"y":[101.87,99.379999999999995,92.549999999999997,86.569999999999993,67.370000000000005,51.149999999999999,26.399999999999999,6.4500000000000002,1.6299999999999999,0.01],"type":"scatter","mode":"markers","name":"7","marker":{"color":"rgba(227,217,62,1)","line":{"color":"rgba(227,217,62,1)"}},"textfont":{"color":"rgba(227,217,62,1)"},"error_y":{"color":"rgba(227,217,62,1)"},"error_x":{"color":"rgba(227,217,62,1)"},"line":{"color":"rgba(227,217,62,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[0,0.5,1,2,6,12,24,48,72,168],"y":[106.28,91.819999999999993,91.819999999999993,86.180000000000007,69.739999999999995,52.030000000000001,23.170000000000002,6.0800000000000001,1.6699999999999999,0.01],"type":"scatter","mode":"markers","name":"8","marker":{"color":"rgba(245,207,100,1)","line":{"color":"rgba(245,207,100,1)"}},"textfont":{"color":"rgba(245,207,100,1)"},"error_y":{"color":"rgba(245,207,100,1)"},"error_x":{"color":"rgba(245,207,100,1)"},"line":{"color":"rgba(245,207,100,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[0,0.5,1,2,6,12,24,48,72,168],"y":[103.47,103.47,87.180000000000007,87.180000000000007,71.180000000000007,53.200000000000003,23.219999999999999,6.0300000000000002,1.5700000000000001,0.01],"type":"scatter","mode":"markers","name":"9","marker":{"color":"rgba(219,192,155,1)","line":{"color":"rgba(219,192,155,1)"}},"textfont":{"color":"rgba(219,192,155,1)"},"error_y":{"color":"rgba(219,192,155,1)"},"error_x":{"color":"rgba(219,192,155,1)"},"line":{"color":"rgba(219,192,155,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[0,0.5,1,2,6,12,24,48,72,168],"y":[97.540000000000006,93.650000000000006,89.5,89.5,72.450000000000003,53.119999999999997,23.309999999999999,6.3399999999999999,1.5800000000000001,0.01],"type":"scatter","mode":"markers","name":"10","marker":{"color":"rgba(179,179,179,1)","line":{"color":"rgba(179,179,179,1)"}},"textfont":{"color":"rgba(179,179,179,1)"},"error_y":{"color":"rgba(179,179,179,1)"},"error_x":{"color":"rgba(179,179,179,1)"},"line":{"color":"rgba(179,179,179,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[0,0.5,1,2,6,12,24,48,72,168],"y":[110,95.680000000000007,95.680000000000007,93.980000000000004,68.530000000000001,47.350000000000001,25.469999999999999,6.0700000000000003,1.6100000000000001,0.01],"type":"scatter","mode":"lines","showlegend":false,"name":"1","marker":{"color":"rgba(102,194,165,1)","line":{"color":"rgba(102,194,165,1)"}},"textfont":{"color":"rgba(102,194,165,1)"},"error_y":{"color":"rgba(102,194,165,1)"},"error_x":{"color":"rgba(102,194,165,1)"},"line":{"color":"rgba(102,194,165,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[0,0.5,1,2,6,12,24,48,72,168],"y":[99.769999999999996,99.769999999999996,93.230000000000004,90.700000000000003,70.909999999999997,52.960000000000001,22.5,6.5099999999999998,1.5700000000000001,0.01],"type":"scatter","mode":"lines","showlegend":false,"name":"2","marker":{"color":"rgba(228,156,113,1)","line":{"color":"rgba(228,156,113,1)"}},"textfont":{"color":"rgba(228,156,113,1)"},"error_y":{"color":"rgba(228,156,113,1)"},"error_x":{"color":"rgba(228,156,113,1)"},"line":{"color":"rgba(228,156,113,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[0,0.5,1,2,6,12,24,48,72,168],"y":[110,100.17,93.069999999999993,93.069999999999993,70.959999999999994,52.149999999999999,24.010000000000002,6.5499999999999998,1.5800000000000001,0.01],"type":"scatter","mode":"lines","showlegend":false,"name":"3","marker":{"color":"rgba(201,152,157,1)","line":{"color":"rgba(201,152,157,1)"}},"textfont":{"color":"rgba(201,152,157,1)"},"error_y":{"color":"rgba(201,152,157,1)"},"error_x":{"color":"rgba(201,152,157,1)"},"line":{"color":"rgba(201,152,157,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[0,0.5,1,2,6,12,24,48,72,168],"y":[96.569999999999993,96.569999999999993,96.569999999999993,87.840000000000003,69.950000000000003,47.670000000000002,24.09,6.6299999999999999,1.45,0.01],"type":"scatter","mode":"lines","showlegend":false,"name":"4","marker":{"color":"rgba(175,154,200,1)","line":{"color":"rgba(175,154,200,1)"}},"textfont":{"color":"rgba(175,154,200,1)"},"error_y":{"color":"rgba(175,154,200,1)"},"error_x":{"color":"rgba(175,154,200,1)"},"line":{"color":"rgba(175,154,200,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[0,0.5,1,2,6,12,24,48,72,168],"y":[93.879999999999995,93.879999999999995,93.879999999999995,86.579999999999998,68.629999999999995,47,22.789999999999999,6.2699999999999996,1.4399999999999999,0.01],"type":"scatter","mode":"lines","showlegend":false,"name":"5","marker":{"color":"rgba(226,148,184,1)","line":{"color":"rgba(226,148,184,1)"}},"textfont":{"color":"rgba(226,148,184,1)"},"error_y":{"color":"rgba(226,148,184,1)"},"error_x":{"color":"rgba(226,148,184,1)"},"line":{"color":"rgba(226,148,184,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[0,0.5,1,2,6,12,24,48,72,168],"y":[96.280000000000001,94.900000000000006,87.680000000000007,87.680000000000007,69.040000000000006,49.939999999999998,23.600000000000001,6.3600000000000003,1.6799999999999999,0.01],"type":"scatter","mode":"lines","showlegend":false,"name":"6","marker":{"color":"rgba(176,208,99,1)","line":{"color":"rgba(176,208,99,1)"}},"textfont":{"color":"rgba(176,208,99,1)"},"error_y":{"color":"rgba(176,208,99,1)"},"error_x":{"color":"rgba(176,208,99,1)"},"line":{"color":"rgba(176,208,99,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[0,0.5,1,2,6,12,24,48,72,168],"y":[101.87,99.379999999999995,92.549999999999997,86.569999999999993,67.370000000000005,51.149999999999999,26.399999999999999,6.4500000000000002,1.6299999999999999,0.01],"type":"scatter","mode":"lines","showlegend":false,"name":"7","marker":{"color":"rgba(227,217,62,1)","line":{"color":"rgba(227,217,62,1)"}},"textfont":{"color":"rgba(227,217,62,1)"},"error_y":{"color":"rgba(227,217,62,1)"},"error_x":{"color":"rgba(227,217,62,1)"},"line":{"color":"rgba(227,217,62,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[0,0.5,1,2,6,12,24,48,72,168],"y":[106.28,91.819999999999993,91.819999999999993,86.180000000000007,69.739999999999995,52.030000000000001,23.170000000000002,6.0800000000000001,1.6699999999999999,0.01],"type":"scatter","mode":"lines","showlegend":false,"name":"8","marker":{"color":"rgba(245,207,100,1)","line":{"color":"rgba(245,207,100,1)"}},"textfont":{"color":"rgba(245,207,100,1)"},"error_y":{"color":"rgba(245,207,100,1)"},"error_x":{"color":"rgba(245,207,100,1)"},"line":{"color":"rgba(245,207,100,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[0,0.5,1,2,6,12,24,48,72,168],"y":[103.47,103.47,87.180000000000007,87.180000000000007,71.180000000000007,53.200000000000003,23.219999999999999,6.0300000000000002,1.5700000000000001,0.01],"type":"scatter","mode":"lines","showlegend":false,"name":"9","marker":{"color":"rgba(219,192,155,1)","line":{"color":"rgba(219,192,155,1)"}},"textfont":{"color":"rgba(219,192,155,1)"},"error_y":{"color":"rgba(219,192,155,1)"},"error_x":{"color":"rgba(219,192,155,1)"},"line":{"color":"rgba(219,192,155,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[0,0.5,1,2,6,12,24,48,72,168],"y":[97.540000000000006,93.650000000000006,89.5,89.5,72.450000000000003,53.119999999999997,23.309999999999999,6.3399999999999999,1.5800000000000001,0.01],"type":"scatter","mode":"lines","showlegend":false,"name":"10","marker":{"color":"rgba(179,179,179,1)","line":{"color":"rgba(179,179,179,1)"}},"textfont":{"color":"rgba(179,179,179,1)"},"error_y":{"color":"rgba(179,179,179,1)"},"error_x":{"color":"rgba(179,179,179,1)"},"line":{"color":"rgba(179,179,179,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="pk_data-nca" class="slide level2">
+<h2>pk_data: –nca</h2>
+<p>Input:</p>
+<pre><code>python -m pynca -f "pk_dummy_iv_bolus_1cmt.csv" --nca --auc_start 0 --auc_end 168 --terminal_times 24 48 72</code></pre>
+<p>Output:</p>
+<pre><code>Results of NCA:
+
+Cmax: 
+      mean        sd    min    max       Q1  median        Q3    IQR
+0  101.566  5.769795  93.88  110.0  96.8125  100.82  105.5775  8.765
+
+
+Tmax: 
+   mean   sd  min  max   Q1  median   Q3  IQR
+0   0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0
+
+
+t1/2: 
+        mean        sd        min        max         Q1     median         Q3       IQR
+0  12.584638  0.035497  12.529479  12.653947  12.562085  12.585565  12.605511  0.043425
+
+
+AUC(0-168): 
+      mean         sd     min        max          Q1      median          Q3      IQR
+0  1847.02  34.524068  1771.0  1888.8725  1831.75125  1852.53375  1866.72875  34.9775
+
+
+Vd: 
+       mean        sd       min      max        Q1    median        Q3       IQR
+0  0.987407  0.055319  0.909091  1.06519  0.947299  0.991974  1.032944  0.085645
+
+
+CL: 
+       mean        sd       min       max       Q1   median        Q3       IQR
+0  0.054159  0.001029  0.052942  0.056465  0.05357  0.05398  0.054593  0.001023
+</code></pre>
+</section>
+<section id="module.py" class="slide level2">
+<h2>module.py</h2>
+<pre><code>import pandas as pd
+import plotly.express as px
+import numpy as np
+from scipy.stats import linregress
+
+class pk_dummy_data:
+    def __init__(self, n_ids:int, times:list, dose:float):
+        self.n_ids = n_ids
+        self.times = times
+        self.dose = dose
+
+        self.len_times = len(times)
+    
+        time_seq = np.array(times)
+        dose_seq = np.array([dose])
+        self.time_seq = time_seq
+
+        while len(dose_seq) &lt; self.len_times:
+            dose_seq = np.append(dose_seq, 0)
+
+        id_col = np.repeat(np.arange(1, n_ids + 1), self.len_times)
+        time_col = np.tile(time_seq, n_ids)
+        dose_col = np.tile(dose_seq, n_ids)
+
+        self.df = pd.DataFrame({
+            "ID": id_col,
+            "TIME": time_col,
+            "DOSE": dose_col
+        })
+
+    def iv_bolus_1cmt(self, half_life:float):
+        k = np.log(2) / half_life  # Elimination rate constant
+        C0 = self.dose  # Initial concentration
+
+        conc_trend = C0 * np.exp(-k * self.time_seq)
+
+        conc_data = []
+        for _ in range(self.n_ids):
+            variability = np.random.normal(1, 0.05, size=len(conc_trend))
+            variability = np.clip(variability, 0.9, 1.1)
+            conc = np.round(conc_trend * variability, 2)
+
+            # Ensure concentrations consistently decrease
+            conc_monotonic = [conc[0]]
+            for val in conc[1:]:
+                conc_monotonic.append(min(conc_monotonic[-1], val))
+
+            conc_data.extend(conc_monotonic)
+
+        self.df = self.df.assign(TREND=np.tile(np.round(conc_trend, 2), self.n_ids))
+        self.df["CONC"] = conc_data
+
+        return self.df
+
+class pk_data:
+    def __init__(self, data):
+        '''Initialize the pk_data object. Accepts either a DataFrame or a CSV file path.'''
+        if isinstance(data, str):  # If a file path is given
+            self.df = pd.read_csv(data)
+        elif isinstance(data, pd.DataFrame):
+            self.df = data
+        else:
+            raise ValueError("Input data must be a DataFrame or a path to a CSV file.")
+
+        self.list_ids = self.df['ID'].unique()
+
+    def summarize(self):
+        summ = self.df.groupby('TIME')['CONC'].agg(["count", "mean", "std", "median", "min", "max"]).reset_index()
+        return summ
+        
+    def summ_stats(self, vals:list, stat=['mean', 'sd', 'min', 'max', 'Q1', 'median', 'Q3', 'IQR']):
+        # Ensures user requests valid stats
+        for i in stat:
+            if i not in ['mean', 'sd', 'min', 'max', 'Q1', 'median', 'Q3', 'IQR']:
+                raise Exception("""Unsupported statistic. Please enter an array of one or more of 'mean', 'sd', 'min', 'max', 'Q1', 'median', 'Q3', or 'IQR'.
+               Leave blank to calculate all statistics.""")
+    
+        vals_series = pd.Series(vals)
+    
+        stats = {
+                'mean': vals_series.mean(),
+                'sd': vals_series.std(),
+                'min': vals_series.min(),
+                'max': vals_series.max(),
+                'Q1': vals_series.quantile(0.25),
+                'median': vals_series.median(),
+                'Q3': vals_series.quantile(0.75),
+                'IQR': vals_series.quantile(0.75) - vals_series.quantile(0.25)
+        }
+    
+        stats = {k: v for k, v in stats.items() if k in stat}   
+    
+        return pd.DataFrame([stats])
+
+    def half_life(self, term_elim_times:list, stat=['mean', 'sd', 'min', 'max', 'Q1', 'median', 'Q3', 'IQR']):
+        half_lives = []
+        for ID in self.list_ids:
+            subset = self.df.loc[self.df['ID'] == ID]
+            ln_conc = np.log(subset['CONC'])
+            slope, _, r_value, _, _ = linregress(subset['TIME'], ln_conc)
+            if slope &gt;= 0:
+                continue  # biologically invalid slope, skip
+            half_life = np.log(2) / -slope
+            half_lives.append(half_life)
+        return self.summ_stats(half_lives, stat=stat)
+
+    def cmax(self, stat=['mean', 'sd', 'min', 'max', 'Q1', 'median', 'Q3', 'IQR']):
+        cmax_vals = self.df.groupby('ID')['CONC'].max()
+        return self.summ_stats(cmax_vals, stat=stat)
+
+    def tmax(self, stat=['mean', 'sd', 'min', 'max', 'Q1', 'median', 'Q3', 'IQR']):
+        tmax_vals = []
+        for ID in self.list_ids:
+            subset = self.df.loc[self.df['ID'] == ID]
+            tmax = subset.loc[subset['CONC'] == subset['CONC'].max()]['TIME'].iloc[0]
+            tmax_vals.append(tmax)
+        return self.summ_stats(tmax_vals, stat=stat)
+
+    def auc(self, start:int, end:int, stat=['mean', 'sd', 'min', 'max', 'Q1', 'median', 'Q3', 'IQR'], ind=False):
+        auc_vals = []
+        for ID in self.list_ids:
+            subset_id = self.df.loc[self.df['ID'] == ID]
+            subset_time = subset_id[(subset_id['TIME'] &gt;= start) &amp; (subset_id['TIME'] &lt;= end)]
+            auc = np.trapezoid(subset_time['CONC'], subset_time['TIME'])
+            auc_vals.append(auc)
+
+        if ind:
+            return auc_vals
+        else:
+            return self.summ_stats(auc_vals, stat=stat)
+
+    def vd(self, stat=['mean', 'sd', 'min', 'max', 'Q1', 'median', 'Q3', 'IQR'], silence_message=False):
+        if not silence_message:
+            print("NB: The current iteration of 'vd()' only works for a single bolus dose given at 'TIME' == 0.")
+        
+        vd_vals = []
+        for ID in self.list_ids:
+            subset = self.df.loc[(self.df['ID'] == ID) &amp; (self.df['TIME'] == 0)]
+            dose = subset['DOSE'].iloc[0]
+            c0 = subset['CONC'].iloc[0]
+            vd = dose / c0
+            vd_vals.append(vd)
+        return self.summ_stats(vd_vals, stat=stat)
+
+    def cl(self, start, end, stat=['mean', 'sd', 'min', 'max', 'Q1', 'median', 'Q3', 'IQR'], silence_message=False):
+        if not silence_message:
+            print("NB: The current iteration of 'cl()' only works for a single bolus dose given at 'TIME' == 0.")
+            
+        subset = self.df.loc[self.df['DOSE'] != 0].copy().reset_index()
+        auc = self.auc(start=start, end=end, ind=True)
+        cl_vals = subset['DOSE'] / auc
+        return self.summ_stats(cl_vals, stat=stat)
+    
+    def plot(self, summarized=False, log_scale=False):
+        if summarized:
+            summary = self.summarize()
+            fig = px.line(summary, x="TIME", y="mean", error_y="std", markers=True, log_y=log_scale,
+                          title="Mean (SD) PK concentration profile")
+        else:
+            fig = px.line(self.df, x="TIME", y="CONC", color="ID", markers=True, log_y=log_scale,
+                          title="Individual PK concentration profiles")
+        
+        fig.update_layout(xaxis_title="Time", yaxis_title="Concentration")
+        return fig
+
+    def report(self, term_elim_times:list, start, end):
+        print(f"Summary of PK data: \n{self.summarize()}\n\n")
+        print("Results of NCA:\n")
+        print(f"Cmax: \n{self.cmax()}\n\n")
+        print(f"Tmax: \n{self.tmax()}\n\n")
+        print(f"t1/2: \n{self.half_life(term_elim_times=term_elim_times)}\n\n")
+        print(f"AUC({start}-{end}): \n{self.auc(start=start, end=end)}\n\n")
+        print(f"Vd: \n{self.vd(silence_message=True)}\n\n")
+        print(f"CL: \n{self.cl(start=start, end = end, silence_message=True)}\n\n")</code></pre>
+<div class="footer footer-default">
+
+</div>
+</section>
+    </div>
+  </div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="PyNCA_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="PyNCA_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="PyNCA_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="PyNCA_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="PyNCA_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="PyNCA_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="PyNCA_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="PyNCA_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="PyNCA_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="PyNCA_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'smaller': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
+    <script id="quarto-html-after-body" type="application/javascript">
+    window.document.addEventListener("DOMContentLoaded", function (event) {
+      const toggleBodyColorMode = (bsSheetEl) => {
+        const mode = bsSheetEl.getAttribute("data-mode");
+        const bodyEl = window.document.querySelector("body");
+        if (mode === "dark") {
+          bodyEl.classList.add("quarto-dark");
+          bodyEl.classList.remove("quarto-light");
+        } else {
+          bodyEl.classList.add("quarto-light");
+          bodyEl.classList.remove("quarto-dark");
+        }
+      }
+      const toggleBodyColorPrimary = () => {
+        const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+        if (bsSheetEl) {
+          toggleBodyColorMode(bsSheetEl);
+        }
+      }
+      toggleBodyColorPrimary();  
+      const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+      tabsets.forEach(function(tabset) {
+        const tabby = new Tabby('#' + tabset.id);
+      });
+      const isCodeAnnotation = (el) => {
+        for (const clz of el.classList) {
+          if (clz.startsWith('code-annotation-')) {                     
+            return true;
+          }
+        }
+        return false;
+      }
+      const clipboard = new window.ClipboardJS('.code-copy-button', {
+        text: function(trigger) {
+          const codeEl = trigger.previousElementSibling.cloneNode(true);
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+      });
+      clipboard.on('success', function(e) {
+        // button target
+        const button = e.trigger;
+        // don't keep focus
+        button.blur();
+        // flash "checked"
+        button.classList.add('code-copy-button-checked');
+        var currentTitle = button.getAttribute("title");
+        button.setAttribute("title", "Copied!");
+        let tooltip;
+        if (window.bootstrap) {
+          button.setAttribute("data-bs-toggle", "tooltip");
+          button.setAttribute("data-bs-placement", "left");
+          button.setAttribute("data-bs-title", "Copied!");
+          tooltip = new bootstrap.Tooltip(button, 
+            { trigger: "manual", 
+              customClass: "code-copy-button-tooltip",
+              offset: [0, -8]});
+          tooltip.show();    
+        }
+        setTimeout(function() {
+          if (tooltip) {
+            tooltip.hide();
+            button.removeAttribute("data-bs-title");
+            button.removeAttribute("data-bs-toggle");
+            button.removeAttribute("data-bs-placement");
+          }
+          button.setAttribute("title", currentTitle);
+          button.classList.remove('code-copy-button-checked');
+        }, 1000);
+        // clear code selection
+        e.clearSelection();
+      });
+      function tippyHover(el, contentFn) {
+        const config = {
+          allowHTML: true,
+          content: contentFn,
+          maxWidth: 500,
+          delay: 100,
+          arrow: false,
+          appendTo: function(el) {
+              return el.closest('section.slide') || el.parentElement;
+          },
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'light-border',
+          placement: 'bottom-start'
+        };
+          config['offset'] = [0,0];
+          config['maxWidth'] = 700;
+        window.tippy(el, config); 
+      }
+      const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+      for (var i=0; i<noterefs.length; i++) {
+        const ref = noterefs[i];
+        tippyHover(ref, function() {
+          // use id or data attribute instead here
+          let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+          try { href = new URL(href).hash; } catch {}
+          const id = href.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          return note.innerHTML;
+        });
+      }
+      const findCites = (el) => {
+        const parentEl = el.parentElement;
+        if (parentEl) {
+          const cites = parentEl.dataset.cites;
+          if (cites) {
+            return {
+              el,
+              cites: cites.split(' ')
+            };
+          } else {
+            return findCites(el.parentElement)
+          }
+        } else {
+          return undefined;
+        }
+      };
+      var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+      for (var i=0; i<bibliorefs.length; i++) {
+        const ref = bibliorefs[i];
+        const citeInfo = findCites(ref);
+        if (citeInfo) {
+          tippyHover(citeInfo.el, function() {
+            var popup = window.document.createElement('div');
+            citeInfo.cites.forEach(function(cite) {
+              var citeDiv = window.document.createElement('div');
+              citeDiv.classList.add('hanging-indent');
+              citeDiv.classList.add('csl-entry');
+              var biblioDiv = window.document.getElementById('ref-' + cite);
+              if (biblioDiv) {
+                citeDiv.innerHTML = biblioDiv.innerHTML;
+              }
+              popup.appendChild(citeDiv);
+            });
+            return popup.innerHTML;
+          });
+        }
+      }
+    });
+    </script>
+    
+
+</body></html>

@@ -6,6 +6,7 @@ Author: James Graydon
 Author-email: jsg2239@columbia.edu
 License: GPLv3
 Classifier: Programming Language :: Python :: 3
+License-File: LICENSE.txt
 Requires-Dist: numpy
 Requires-Dist: pandas
 Requires-Dist: plotly

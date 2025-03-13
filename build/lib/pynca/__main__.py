@@ -16,18 +16,18 @@ def parse_command_line():
 Example usage:
 
   # Generate a dummy dataset 
-  python -m pynca --generate --dummy_n_ids 10 --dummy_times 0 1 2 4 8 --dummy_dose 100 --dummy_half_life 3.5
+  python python -m pynca --generate --dummy_n_ids 10 --dummy_times 0 1 2 4 8 --dummy_dose 100 --dummy_half_life 3.5
 
   # Load a dataset and summarize
-  python -m pynca -f [data.csv] --summarize
+  python python -m pynca -f [data.csv] --summarize
 
   # Plot the raw data with a semi-log scale
-  python -m pynca -f [data.csv] -p --log_scale
+  python python -m pynca -f [data.csv] -p --log_scale
 
   # Perform a full NCA analysis
-  python -m pynca -f [data.csv] --nca --auc_start 0 --auc_end 8 --terminal_times 1 2 4
+  python python -m pynca -f [data.csv] --nca --auc_start 0 --auc_end 8 --terminal_times 1 2 4
 
-For more details, please see the README file.
+For more details, check the documentation.
 """, formatter_class=argparse.RawTextHelpFormatter
 )
 

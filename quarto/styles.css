@@ -9,7 +9,7 @@
     right: 10px; /* Adjust as needed */
     width: 80px; /* Adjust logo size */
     height: 80px;
-    background-image: url("logo.png");
+    background-image: url("icon/logo.png");
     background-size: contain;
     background-repeat: no-repeat;
 }
