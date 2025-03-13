@@ -1,0 +1,42 @@
+.reveal .slide-background {
+    position: relative;
+}
+
+.reveal::after {
+    content: "";
+    position: absolute;
+    top: 10px; /* Adjust as needed */
+    right: 10px; /* Adjust as needed */
+    width: 80px; /* Adjust logo size */
+    height: 80px;
+    background-image: url("logo.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+/* Reduce overall font size */
+.reveal {
+    font-size: 200%; /* Adjust as needed */
+}
+
+
+/* Reduce font size for second-level lists */
+.reveal ul ul,
+.reveal ol ol { 
+    font-size: 80%; /* Adjust size as needed */
+}
+
+/* Keep third, fourth, etc., levels the same size as the second */
+.reveal ul ul ul,
+.reveal ol ol ol,
+.reveal ul ul ul ul,
+.reveal ol ol ol ol {
+    font-size: 80%; /* Ensuring deeper levels remain the same size */
+}
+
+.slide-menu-button {
+    top: 10px;
+    left: 10px;
+    right: auto;
+}
+

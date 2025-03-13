@@ -1,0 +1,18 @@
+Metadata-Version: 2.2
+Name: PyNCA
+Version: 0.1.0
+Summary: A package for performing NCAs in Python
+Author: James Graydon
+Author-email: jsg2239@columbia.edu
+License: GPLv3
+Classifier: Programming Language :: Python :: 3
+Requires-Dist: numpy
+Requires-Dist: pandas
+Requires-Dist: plotly
+Requires-Dist: scipy
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: license
+Dynamic: requires-dist
+Dynamic: summary

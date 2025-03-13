@@ -1,0 +1,42 @@
+---
+title: "PyNCA: An Open-Source, Python-Based Solution for NCA"
+author: "James Graydon"
+institute: "Columbia University, GSAS, Biotechnology"
+date: today
+date-format: "D MMMM YYYY"  
+format: 
+  revealjs:
+    theme: moon
+    css: styles.css
+    slide-number: true
+favicon: favicon.ico
+---
+
+## Introduction: Pharmacokinetics
+
+* Pharmacokinetic (PK) data is routinely collected and analyzed in drug development
+  + In simple terms, PK data represents the **concentration** of drug in a given compartment over time
+  + PK data help scientists understand the distribution and activity of a drug
+  + PK data are also used to establish the duration of the drug's persistence in the body and safety profile
+
+## Introduction: Noncompartmental analysis
+
+* Noncompartmental analysis (NCA) is a widely used methodology for quantifying PK data
+  + NCAs typically return values such as:
+    - Half-life (t~1/2~)
+    - Maximum concentration (C~max~)
+    - Time to C~max~ (T~max~)
+    - Volume of distribution (V~d~)
+    - Clearance rate (CL)
+    - Area under the concentration-time curve (AUC)
+* More sophisticated (and complicated) methods allow for further characterization of PK
+  + NCA, due to simplicity/low cost/ease of use, is still a standard part of all drug studies
+
+## Why am I doing this?
+
+* NCA is a simple method, but many pharmacologists lack experience with or access to software to run it
+* No Python-based NCA solution exists
+* A simple, easy-to-use, secure option may allow more users to quickly perform NCAs
+
+
+
