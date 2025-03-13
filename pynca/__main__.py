@@ -1,5 +1,10 @@
+# PyNCA: Noncompartmental Analysis in Python
+# Copyright (c) 2025 James S. Graydon
+# Licensed under the MIT License (see LICENSE file)
+
 import argparse
 import pandas as pd
+import sys
 from .module import pk_dummy_data, pk_data
 
 def parse_command_line():
@@ -175,13 +180,14 @@ def main():
 
         if args.nca:
             print("\nAnalyzing data...\n")
-            report = df.report(term_elim_times=args.term_times, start=args.auc_start, end=args.auc_end)
-            print(report)
+            df.report(term_elim_times=args.term_times, start=args.auc_start, end=args.auc_end)
             if args.report_path is not None:
-                if args.report_path[-4] != ".txt":
-                    "".join(args.report_path, ".txt")
-                with open(args.report_path, 'w') as f:
-                    f.write(report)
+                if not args.report_path.endswith(".txt"):
+                    args.report_path += ".txt"
+                with open(args.report_path, "w") as f:
+                    sys.stdout = f  # Redirect print output
+                    df.report(term_elim_times=args.term_times, start=args.auc_start, end=args.auc_end)
+                sys.stdout = sys.__stdout__
                 print(f"📝 Report saved as text file at {args.report_path}.")
 
 

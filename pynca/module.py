@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 
+# PyNCA: Noncompartmental Analysis in Python
+# Copyright (c) 2025 James S. Graydon
+# Licensed under the MIT License (see LICENSE file)
+
 """
 Command line interface to PyNCA
 """
@@ -171,6 +175,7 @@ class pk_data:
 
     def report(self, term_elim_times:list, start, end):
         print(f"Summary of PK data: \n{self.summarize()}\n\n")
+        print("Results of NCA:\n")
         print(f"Cmax: \n{self.cmax()}\n\n")
         print(f"Tmax: \n{self.tmax()}\n\n")
         print(f"t1/2: \n{self.half_life(term_elim_times=term_elim_times)}\n\n")
