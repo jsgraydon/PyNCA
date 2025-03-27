@@ -16,18 +16,18 @@ def parse_command_line():
 Example usage:
 
   # Generate a dummy dataset 
-  python python -m pynca --generate --dummy_n_ids 10 --dummy_times 0 1 2 4 8 --dummy_dose 100 --dummy_half_life 3.5
+  python -m pynca --generate --dummy_n_ids 10 --dummy_times 0 1 2 4 8 --dummy_dose 100 --dummy_half_life 3.5
 
   # Load a dataset and summarize
-  python python -m pynca -f [data.csv] --summarize
+  python -m pynca -f [data.csv] --summarize
 
   # Plot the raw data with a semi-log scale
-  python python -m pynca -f [data.csv] -p --log_scale
+  python -m pynca -f [data.csv] -p --log_scale
 
   # Perform a full NCA analysis
-  python python -m pynca -f [data.csv] --nca --auc_start 0 --auc_end 8 --terminal_times 1 2 4
+  python -m pynca -f [data.csv] --nca --auc_start 0 --auc_end 8 --terminal_times 1 2 4
 
-For more details, check the documentation.
+For more details, please see the README file.
 """, formatter_class=argparse.RawTextHelpFormatter
 )
 
@@ -97,6 +97,13 @@ For more details, check the documentation.
     parser.add_argument(
         "--log_scale",
         help="option to plot the data on a semi-log scale (requires -p/--plot)",
+        action="store_true"
+        )
+    
+    parser.add_argument(
+        "-t",
+        "--half_life",
+        help="option to calculate half-life (requires -f/--file and --terminal_times)",
         action="store_true"
         )
 
@@ -187,6 +194,14 @@ def main():
             plot_file = "pk_plot.html"
             fig.write_html(plot_file)
             print(f"\n📂 Plot saved as {plot_file}. Open it in a web browser to view.\n")
+
+        if args.half_life:
+            if args.term_times is None:
+                print("\n ❌Error: Half-life cannot be calculated with terminal elimination timepoints (--termal_times)")
+                return
+            print(f"Calculating half-life using terminal elimination phase: {args.term_times}...")
+            half_life = df.half_life(term_elim_times=args.term_times)
+            print(half_life)
 
         if args.auc:
             print(f"\nCalculating AUC between {args.auc_start} and {args.auc_end}...")

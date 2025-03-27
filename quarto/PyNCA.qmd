@@ -11,6 +11,7 @@ format:
     slide-number: true
     scrollable: true
     highlight-style: github
+    havigation_mode: vertical
 favicon: favicon.ico
 ---
 
@@ -30,6 +31,20 @@ df_dummy <- read_csv("../pk_dummy_iv_bolus_1cmt.csv", show_col_types = FALSE)
     -   In simple terms, PK data represents the **concentration** of drug in a given compartment over time
     -   PK data help scientists understand the distribution and activity of a drug
     -   PK data are also used to establish the duration of the drug's persistence in the body and safety profile
+    
+## Sample of PK data
+
+```{r sample_data, echo=FALSE}
+df_dummy |>
+  select(-TREND) |>
+  head(5) |>
+  flextable() |>
+  theme_alafoli() |>
+  color(part = "all", color = "ivory") |>
+  fontsize(part = "all", size = 16) |>
+  width(j = 1:4, width = 2)
+```
+
 
 ## Introduction: Noncompartmental analysis
 
@@ -57,6 +72,63 @@ df_dummy <- read_csv("../pk_dummy_iv_bolus_1cmt.csv", show_col_types = FALSE)
     -   `--summarize`
     -   `--plot`
     -   `--nca`
+    
+## ```--help```
+
+Input:
+```
+ python -m pynca --help
+```
+
+Output:
+```
+usage: __main__.py [-h] [--generate] [--dummy_n_ids D_NIDS] [--dummy_times D_TIMES [D_TIMES ...]]
+                   [--dummy_dose D_DOSE] [--dummy_half_life D_T12] [-f DATASET_PATH] [-s] [-p] [--plot_mean]
+                   [--log_scale] [--auc_start AUC_START] [--auc_end AUC_END]
+                   [--terminal_times TERM_TIMES [TERM_TIMES ...]] [--auc] [--nca] [--report REPORT_PATH]
+
+PyNCA: Noncompartmental Analysis in Python
+
+options:
+  -h, --help            show this help message and exit
+  --generate            generates a dummy dataset of PK data
+  --dummy_n_ids D_NIDS  int: sets number of ID values for the dummy dataset (requires --generate)
+  --dummy_times D_TIMES [D_TIMES ...]
+                        list (space-seperated): sets sampling times for dummy dataset (requires --generate)
+  --dummy_dose D_DOSE   float: sets dose for dummy dataset (requires --generate)
+  --dummy_half_life D_T12
+                        float: sets half-life for dummy dataset (requires --generate)
+  -f DATASET_PATH, --file DATASET_PATH
+                        str: provide file path to a CSV file
+  -s, --summarize       summarize the data (requires -f/--file)
+  -p, --plot            plot the raw data (requires -f/--file)
+  --plot_mean           option to summarize the data (mean, SD) before plotting (requires -p/--plot)
+  --log_scale           option to plot the data on a semi-log scale (requires -p/--plot)
+  --auc_start AUC_START
+                        int: first time value to include in AUC (requires -r/--report)
+  --auc_end AUC_END     int: last time value to include in AUC (requires -r/--report)
+  --terminal_times TERM_TIMES [TERM_TIMES ...]
+                        list (space-separated): list of times for half-life calculation (requires -r/--report)
+  --auc                 calculates AUC between --auc_start and --auc_end
+  --nca                 perform full NCA (requires -f/--file)
+  --report REPORT_PATH  str: name for saved NCA results
+
+Example usage:
+
+  # Generate a dummy dataset
+  python -m pynca --generate --dummy_n_ids 10 --dummy_times 0 1 2 4 8 --dummy_dose 100 --dummy_half_life 3.5
+
+  # Load a dataset and summarize
+  python -m pynca -f [data.csv] --summarize
+
+  # Plot the raw data with a semi-log scale
+  python -m pynca -f [data.csv] -p --log_scale
+
+  # Perform a full NCA analysis
+  python -m pynca -f [data.csv] --nca --auc_start 0 --auc_end 8 --terminal_times 1 2 4
+
+For more details, please see the README file.
+```
 
 ## pk_dummy_data
 

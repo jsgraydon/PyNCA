@@ -6,6 +6,12 @@ PyNCA is a **free**, **open-source**, and **Python-based** package intended to p
 
 *NB: PyNCA is intended to be used via a graphic-user interface (GUI); however, at this time, only the command-line interface (CLI) functionality has been implemented.*
 
+### In Development
+
+PyNCA is currently in early development stages. If you would like to support the development of PyNCA, please see below for instructions to download and run the code locally (*Installation*). 
+
+Please feel free to reach out via [my Github page](https://github.com/jsgraydon) with questions or suggestions.
+
 ### Requirements
 
 PyNCA is designed to rely on a minimal number of dependencies, namely:

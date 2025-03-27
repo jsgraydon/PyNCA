@@ -99,6 +99,13 @@ For more details, please see the README file.
         help="option to plot the data on a semi-log scale (requires -p/--plot)",
         action="store_true"
         )
+    
+    parser.add_argument(
+        "-t",
+        "--half_life",
+        help="option to calculate half-life (requires -f/--file and --terminal_times)",
+        action="store_true"
+        )
 
     parser.add_argument(
         "--auc_start",
@@ -187,6 +194,14 @@ def main():
             plot_file = "pk_plot.html"
             fig.write_html(plot_file)
             print(f"\n📂 Plot saved as {plot_file}. Open it in a web browser to view.\n")
+
+        if args.half_life:
+            if args.term_times is None:
+                print("\n ❌Error: Half-life cannot be calculated with terminal elimination timepoints (--termal_times)")
+                return
+            print(f"Calculating half-life using terminal elimination phase: {args.term_times}...")
+            half_life = df.half_life(term_elim_times=args.term_times)
+            print(half_life)
 
         if args.auc:
             print(f"\nCalculating AUC between {args.auc_start} and {args.auc_end}...")
