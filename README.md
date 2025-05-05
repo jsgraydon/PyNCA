@@ -44,27 +44,9 @@ pip install -e .
 
 ### Usage Guide
 
-#### Generating dummy data
+#### Data format
 
-Once installed, PyNCA includes functionality to create "dummy" PK datasets using the *pk_dummy_data* class. These dummy data are intended to provide the user with a dataset for testing the main functionality of PyNCA offered in the *pk_data* class. 
-
-To create a dummy dataset, enter the ```--generate``` argument. If no additional arguments are entered, the system will prompt the user to provide additional arguments, including:
-
-- ```--dummy_n_ids```: the number of unique individuals
-- ```--dummy_times```: the "sampling time" to include (as a space-separated *list*)
-- ```--dummy_dose```: a single dose at TIME == 0
-- ```--dummy_half_life```: a *float* value to generate the approximate concentration-time trends
-
-An example of a full call to *pk_dummy_data* is shown below:
-```
-python -m pynca --generate --dummy_n_ids 10 --dummy_times 0 0.5 1 2 6 12 24 48 72 168 --dummy_dose 100 --dummy_half_life 12
-```
-
-Once generated, the dummy data are saved in the same directory as the package with the filename **pk_dummy_iv_bolus_1cmt.csv**.
-
-### Data format
-
-Analysis can be performed on the dummy data or actual PK data; the only requirement is that **the column names must be correctly provided**. Note that the current iteration of PyNCA only accepts a single bolus dose given at TIME ==0. An example dataset is shown below:
+Analysis can be performed on dummy data or actual PK data; the only requirement is that **the column names must be correctly provided**. Note that the current iteration of PyNCA only accepts a single bolus dose given at TIME == 0. An example dataset is shown below:
 
 |ID |TIME|CONC |DOSE|
 |--:|---:|----:|---:|
@@ -79,7 +61,23 @@ Analysis can be performed on the dummy data or actual PK data; the only requirem
 
 Additional data columns will be ignored.
 
-#### Summarizing the PK data
+#### Graphical user interface version
+
+PyNCA supports a graphical user interface (GUI) mode based on ```Streamlit```, which will create a **local** and **reactive** web server. This option is provided to allow the user to interact with the underlying PyNCA functions without requiring extensive experience with command lines or Python code. Please note that not all functions are available via the GUI.
+
+To load PyNCA with the Streamlit GUI, use the following code:
+
+```
+streamlit run pynca-sl.py
+```
+
+When prompted, the user may need to manually click on the provided local URL to open the server in a browser. Afterwards, the interface will guide the user to upload their data, visualize them, and perform an NCA.
+
+#### Command line interface version
+
+All of the functions in PyNCA can be accessed via command line. The instructions below pertain to the CLI version of PyNCA.
+
+##### Summarizing the PK data
 
 PyNCA includes functionality to analyze the provided PK data via the ```--summarize``` command. If requested, the data will be summarized by mean, SD, median, minimum, and maximum for each time point.
 
@@ -89,7 +87,7 @@ The following code performs the summarization and prints the results in the comm
 python -m pynca -f "pk_dummy_iv_bolus_1cmt.csv" --summarize
 ```
 
-#### Plotting the data
+##### Plotting the data
 
 The raw PK data can be plotted, either with or without summarization, via the ```--plot``` command. Plots are created via the *plotly* package, allowing them to be interactive. To take advantage of this interactivity, plots are exported to HTML files with the name "pk_plot.html". They can be viewed using a browser. 
 
@@ -99,7 +97,7 @@ The following code will generate a plot file (without summarization and on a sem
 python -m pynca -f "pk_dummy_iv_bolus_1cmt.csv" --plot --log_scale
 ```
 
-#### Performing an NCA
+##### Performing an NCA
 
 The data can be provided to PyNCA via the ```--file``` argument, which takes a *string* filepath. The data are imported and analyzed in a single call, for example:
 

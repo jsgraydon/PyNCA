@@ -185,7 +185,7 @@ def main():
     if args.dataset_path is not None:
         df = pk_data(data = args.dataset_path)
         if args.summarize:
-            print(f"📊 Summary statistics for {args.file}:\n")
+            print(f"📊 Summary statistics for {args.dataset_path}:\n")
             print(df.summarize())
 
         if args.plot:

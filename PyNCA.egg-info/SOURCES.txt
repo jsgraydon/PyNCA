@@ -10,3 +10,4 @@ PyNCA.egg-info/top_level.txt
 pynca/__init__.py
 pynca/__main__.py
 pynca/module.py
+pynca/pynca-sl.py

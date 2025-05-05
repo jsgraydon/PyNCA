@@ -182,3 +182,22 @@ class pk_data:
         print(f"AUC({start}-{end}): \n{self.auc(start=start, end=end)}\n\n")
         print(f"Vd: \n{self.vd(silence_message=True)}\n\n")
         print(f"CL: \n{self.cl(start=start, end = end, silence_message=True)}\n\n")
+
+    def report_df(self, term_elim_times:list, start, end):
+        df_cmax = self.cmax()
+        df_tmax = self.tmax()
+        df_t12 = self.half_life(term_elim_times=term_elim_times)
+        df_auc = self.auc(start=start, end=end)
+        df_vd = self.vd(silence_message=True)
+        df_cl = self.cl(start=start, end = end, silence_message=True)
+        
+        df_cmax.insert(0, "Parameter", "Cmax")
+        df_tmax.insert(0, "Parameter", "Tmax")
+        df_t12.insert(0, "Parameter", "t1/2")
+        df_auc.insert(0, "Parameter", "AUC")
+        df_vd.insert(0, "Parameter", "Vd")
+        df_cl.insert(0, "Parameter", "CL")
+
+        df_merge = pd.concat([df_cmax, df_tmax, df_t12, df_auc, df_vd, df_cl], ignore_index=True)
+        
+        return df_merge
