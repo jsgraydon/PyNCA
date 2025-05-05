@@ -4,7 +4,9 @@
 
 import argparse
 import pandas as pd
+import os
 import sys
+import subprocess
 from .module import pk_dummy_data, pk_data
 
 def parse_command_line():
@@ -147,6 +149,12 @@ For more details, please see the README file.
         type=str,
         dest="report_path"
         )
+    
+    parser.add_argument(
+        "--streamlit",
+        help="launch PyNCA in a Streamlit app",
+        action="store_true"
+        )
 
     # parse args
     args = parser.parse_args()
@@ -169,6 +177,9 @@ def main():
 
     # get arguments from command line as a dict-like object
     args = parse_command_line()
+
+    if args.streamlit:
+        subprocess.run(["streamlit", "run", os.path.join(os.path.dirname(os.path.abspath(__file__)), "pynca-sl.py")])
 
     if (args.log_scale or args.plot_mean) and not args.plot:
         print("\n❌ Error: Plotting options supplied without -p/--plot. Please add the -p flag.\n")
